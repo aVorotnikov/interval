@@ -1,5 +1,6 @@
 # Ingore plots
 _pics/*.png
+_pics/*/*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
