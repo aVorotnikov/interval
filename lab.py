@@ -1,6 +1,7 @@
 #! /bin/python3
 
 import json
+import os
 from matplotlib import pyplot as plt
 from matplotlib.patches import Polygon
 from intvalpy import Interval, Tol, precision
@@ -151,6 +152,13 @@ def regression_type_2(points):
 
 
 def build_plots(data, coord_x, coord_y):
+    try:
+        os.mkdir((f'_pics/{coord_x}_{coord_y}/'))
+    except Exception as e:
+        print(e)
+
+    res = []
+
     # method 1
     b_vec, rads, to_remove = regression_type_1(data)
     x, y = zip(*data)
@@ -160,7 +168,8 @@ def build_plots(data, coord_x, coord_y):
     plt.plot([-0.5, 0.5], [b_vec[1] + b_vec[0] * -0.5, b_vec[1] + b_vec[0] * 0.5], label="Argmax Tol")
     plt.legend()
     print((coord_x, coord_y), 1, b_vec[0], b_vec[1], to_remove)
-    plt.savefig('_pics/calibration.png')
+    res.append((float(b_vec[0]), float(b_vec[1]), to_remove))
+    plt.savefig(f'_pics/{coord_x}_{coord_y}/calibration.png')
 
     plt.figure()
     plt.title("Y(x) - b_0*x - b_1 method 1 for " + str((coord_x, coord_y)))
@@ -169,15 +178,16 @@ def build_plots(data, coord_x, coord_y):
                           y[i] + rads[i] - b_vec[1] - b_vec[0] * x[i]], color="k", zorder=1)
         plt.plot([i, i], [y[i] - 1 / 16384 - b_vec[1] - b_vec[0] * x[i],
                           y[i] + 1 / 16384 - b_vec[1] - b_vec[0] * x[i]], color="blue", zorder=2)
-    plt.savefig('_pics/calibration_dif.png')
+    plt.savefig(f'_pics/{coord_x}_{coord_y}/calibration_dif.png')
 
     # method 2
     plt.figure()
     plt.title("Uni and Tol method 2 for " + str((coord_x, coord_y)))
     b_vec2, y_in, y_ex, to_remove, b_uni_vertices, b_tol_vertices = regression_type_2(data)
     print((coord_x, coord_y), 2, b_vec2[0], b_vec2[1], len(to_remove))
+    res.append((float(b_vec2[0]), float(b_vec2[1]), len(to_remove)))
     x2 = [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5]
-    plt.savefig('_pics/uni_tol.png')
+    plt.savefig(f'_pics/{coord_x}_{coord_y}/uni_tol.png')
 
     plt.figure()
     plt.title("Y(x) method 2 for " + str((coord_x, coord_y)))
@@ -233,7 +243,9 @@ def build_plots(data, coord_x, coord_y):
 
     plt.xlim((-0.6, 0.6))
     plt.ylim((-0.6, 0.6))
-    plt.savefig('_pics/method2.png')
+    plt.savefig(f'_pics/{coord_x}_{coord_y}/method2.png')
+
+    return res
 
 
 def amount_of_neg(all_data, coord_x, coord_y):
@@ -281,16 +293,11 @@ def amount_of_neg(all_data, coord_x, coord_y):
 
 if __name__ == "__main__":
     side_a_1 = load_data("data/04_10_2024_070_068", "a")
-    '''
-    val = [0] * 8
-    for i in range(8):
-        val[i] = [0] * 1024
-    for j in range(1024):
-        for i in range(8):
-            val[i][j] = amount_of_neg(side_a_1, j, i)
-            print(i, j, val[i][j])
-    '''
-    #build_plots(side_a_1[0][0], 0, 0)
-    #build_plots(side_a_1[3][73], 3, 73)
-    build_plots(side_a_1[4][72], 4, 72)
-    # plt.show()
+    res = dict()
+    for i in range(0, 8, 2):
+        res[i] = dict()
+        for j in range(0, 1024, 64):
+            res[i][j] = build_plots(side_a_1[i][j], i, j)
+
+    with open('result.json', 'w') as fp:
+        json.dump(res, fp)
