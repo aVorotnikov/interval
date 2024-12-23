@@ -152,23 +152,28 @@ def regression_type_2(points):
 
 
 def build_plots(data, coord_x, coord_y):
+    '''
     try:
         os.mkdir((f'_pics/{coord_x}_{coord_y}/'))
     except Exception as e:
         print(e)
+    '''
 
     res = []
 
     # method 1
     b_vec, rads, to_remove = regression_type_1(data)
+    '''
     x, y = zip(*data)
     plt.figure()
     plt.title("Y(x) method 1 for " + str((coord_x, coord_y)))
     plt.scatter(x, y, label="medians")
     plt.plot([-0.5, 0.5], [b_vec[1] + b_vec[0] * -0.5, b_vec[1] + b_vec[0] * 0.5], label="Argmax Tol")
     plt.legend()
+    '''
     print((coord_x, coord_y), 1, b_vec[0], b_vec[1], to_remove)
     res.append((float(b_vec[0]), float(b_vec[1]), to_remove))
+    '''
     plt.savefig(f'_pics/{coord_x}_{coord_y}/calibration.png')
 
     plt.figure()
@@ -183,9 +188,11 @@ def build_plots(data, coord_x, coord_y):
     # method 2
     plt.figure()
     plt.title("Uni and Tol method 2 for " + str((coord_x, coord_y)))
+    '''
     b_vec2, y_in, y_ex, to_remove, b_uni_vertices, b_tol_vertices = regression_type_2(data)
     print((coord_x, coord_y), 2, b_vec2[0], b_vec2[1], len(to_remove))
     res.append((float(b_vec2[0]), float(b_vec2[1]), len(to_remove)))
+    '''
     x2 = [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5]
     plt.savefig(f'_pics/{coord_x}_{coord_y}/uni_tol.png')
 
@@ -244,6 +251,7 @@ def build_plots(data, coord_x, coord_y):
     plt.xlim((-0.6, 0.6))
     plt.ylim((-0.6, 0.6))
     plt.savefig(f'_pics/{coord_x}_{coord_y}/method2.png')
+    '''
 
     return res
 
@@ -296,7 +304,7 @@ if __name__ == "__main__":
     res = dict()
     for i in range(0, 8, 2):
         res[i] = dict()
-        for j in range(0, 1024, 64):
+        for j in range(0, 1024, 8):
             res[i][j] = build_plots(side_a_1[i][j], i, j)
 
     with open('result.json', 'w') as fp:
