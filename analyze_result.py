@@ -48,11 +48,11 @@ if __name__ == "__main__":
     ax.set_title("Количество удалённых строк во втором методе")
     plt.savefig(f'_pics/total/m2_deleted_hist.png')
 
-    fig, ax = plt.subplots(figsize=[15, 5])
+    fig, ax = plt.subplots(figsize=[50, 5])
     im = ax.imshow(z1)
 
-    ax.set_xticks(range(0, m, 4), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 4)])
-    ax.set_yticks(range(0, n, 2), labels=[0, 4])
+    ax.set_xticks(range(0, m, 10), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 10)])
+    ax.set_yticks(range(0, n, 3), labels=[0, 3, 7])
 
     ax.set_title("Количество изменённых строк в первом методе")
     plt.xlabel("Ячейки")
@@ -65,11 +65,11 @@ if __name__ == "__main__":
     plt.colorbar(PCM, ax=ax)
     plt.savefig(f'_pics/total/m1_chanded_hm.png')
 
-    fig, ax = plt.subplots(figsize=[15, 5])
+    fig, ax = plt.subplots(figsize=[50, 5])
     im = ax.imshow(z2)
 
-    ax.set_xticks(range(0, m, 4), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 4)])
-    ax.set_yticks(range(0, n, 2), labels=[0, 4])
+    ax.set_xticks(range(0, m, 10), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 10)])
+    ax.set_yticks(range(0, n, 3), labels=[0, 3, 7])
 
     ax.set_title("Количество удалённых строк во втором методе")
     plt.xlabel("Ячейки")
