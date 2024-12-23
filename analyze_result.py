@@ -51,8 +51,8 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=[15, 5])
     im = ax.imshow(z1)
 
-    ax.set_xticks(range(0, m, 4), labels=[list(set(y_array))[i] for i in range(0, m, 4)])
-    ax.set_yticks(range(0, n, 2), labels=[0, 2])
+    ax.set_xticks(range(0, m, 4), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 4)])
+    ax.set_yticks(range(0, n, 2), labels=[0, 4])
 
     ax.set_title("Количество изменённых строк в первом методе")
     plt.xlabel("Ячейки")
@@ -68,8 +68,8 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=[15, 5])
     im = ax.imshow(z2)
 
-    ax.set_xticks(range(0, m, 4), labels=[list(set(y_array))[i] for i in range(0, m, 4)])
-    ax.set_yticks(range(0, n, 2), labels=[0, 2])
+    ax.set_xticks(range(0, m, 4), labels=[sorted(list(set(y_array)))[i] for i in range(0, m, 4)])
+    ax.set_yticks(range(0, n, 2), labels=[0, 4])
 
     ax.set_title("Количество удалённых строк во втором методе")
     plt.xlabel("Ячейки")
