@@ -15,7 +15,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
 
-    with open('result_2_64.json', 'r') as file:
+    with open('result.json', 'r') as file:
         data = json.load(file)
 
     x_array = []
@@ -48,11 +48,11 @@ if __name__ == "__main__":
     ax.set_title("Количество удалённых строк во втором методе")
     plt.savefig(f'_pics/total/m2_deleted_hist.png')
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=[15, 5])
     im = ax.imshow(z1)
 
-    ax.set_xticks(range(m), labels=set(y_array))
-    ax.set_yticks(range(n), labels=set(x_array))
+    ax.set_xticks(range(0, m, 4), labels=[list(set(y_array))[i] for i in range(0, m, 4)])
+    ax.set_yticks(range(0, n, 2), labels=[0, 2])
 
     ax.set_title("Количество изменённых строк в первом методе")
     plt.xlabel("Ячейки")
@@ -62,14 +62,14 @@ if __name__ == "__main__":
     for PCM in ax.get_children():
         if isinstance(PCM, mpl.cm.ScalarMappable):
             break
-    plt.colorbar(PCM, ax=ax) 
+    plt.colorbar(PCM, ax=ax)
     plt.savefig(f'_pics/total/m1_chanded_hm.png')
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=[15, 5])
     im = ax.imshow(z2)
 
-    ax.set_xticks(range(m), labels=set(y_array))
-    ax.set_yticks(range(n), labels=set(x_array))
+    ax.set_xticks(range(0, m, 4), labels=[list(set(y_array))[i] for i in range(0, m, 4)])
+    ax.set_yticks(range(0, n, 2), labels=[0, 2])
 
     ax.set_title("Количество удалённых строк во втором методе")
     plt.xlabel("Ячейки")
@@ -80,16 +80,18 @@ if __name__ == "__main__":
         if isinstance(PCM, mpl.cm.ScalarMappable):
             break
     plt.colorbar(PCM, ax=ax) 
-    plt.savefig(f'_pics/total/m2_chanded_hm.png')
+    plt.savefig(f'_pics/total/m2_deleted_hm.png')
 
+    N = 1100
     print("First:")
-    print("\tMean - ", z1.mean())
-    print("\tMedian - ", np.median(z1))
-    print("\tMax - ", z1.max())
-    print("\tMin - ", z1.min())
+    print(f"\tMean - {z1.mean()}, {z1.mean() / N * 100}%")
+    print(f"\tMedian - {np.median(z1)}, {np.median(z1) / N * 100}%")
+    print(f"\tMax - {z1.max()}, {z1.max() / N * 100}%")
+    print(f"\tMin - {z1.min()}, {z1.min() / N * 100}%")
 
+    N = 44
     print("Second:")
-    print("\tMean - ", z2.mean())
-    print("\tMedian - ", np.median(z2))
-    print("\tMax - ", z2.max())
-    print("\tMin - ", z2.min())
+    print(f"\tMean - {z2.mean()}, {z2.mean() / N * 100}%")
+    print(f"\tMedian - {np.median(z2)}, {np.median(z2) / N * 100}%")
+    print(f"\tMax - {z2.max()}, {z2.max() / N * 100}%")
+    print(f"\tMin - {z2.min()}, {z2.min() / N * 100}%")
